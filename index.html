@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph RAG System - Interactive Presentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-network-wired"></i>
+                LangGraph RAG
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#intro" class="nav-link">소개</a></li>
+                <li><a href="#architecture" class="nav-link">아키텍처</a></li>
+                <li><a href="#flow" class="nav-link">워크플로우</a></li>
+                <li><a href="#nodes" class="nav-link">노드 상세</a></li>
+                <li><a href="#demo" class="nav-link">데모</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="intro" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">LangGraph RAG System</h1>
+            <p class="hero-subtitle">개념 격자와 그래프 검색을 활용한 차세대 문서 검색 시스템</p>
+            <div class="hero-features">
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>지능형 라우팅</h3>
+                    <p>질문 유형 자동 분석</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-search"></i>
+                    <h3>다중 검색 전략</h3>
+                    <p>Vector, Graph, Lattice, Hybrid</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>품질 최적화</h3>
+                    <p>자동 재검색 및 개선</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section">
+        <div class="container">
+            <h2 class="section-title">시스템 아키텍처</h2>
+            <div class="architecture-grid">
+                <div class="arch-component">
+                    <div class="component-icon"><i class="fas fa-database"></i></div>
+                    <h3>데이터 저장소</h3>
+                    <ul>
+                        <li>Neo4j 그래프 DB</li>
+                        <li>FCA 개념 격자</li>
+                        <li>임베딩 벡터 저장소</li>
+                    </ul>
+                </div>
+                <div class="arch-component">
+                    <div class="component-icon"><i class="fas fa-cogs"></i></div>
+                    <h3>처리 엔진</h3>
+                    <ul>
+                        <li>LangGraph 워크플로우</li>
+                        <li>OpenAI LLM</li>
+                        <li>품질 평가 시스템</li>
+                    </ul>
+                </div>
+                <div class="arch-component">
+                    <div class="component-icon"><i class="fas fa-route"></i></div>
+                    <h3>검색 전략</h3>
+                    <ul>
+                        <li>Vector Search</li>
+                        <li>Graph Search</li>
+                        <li>Lattice Search</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Flow Section -->
+    <section id="flow" class="section flow-section">
+        <div class="container">
+            <h2 class="section-title">LangGraph 워크플로우</h2>
+            <div class="flow-container">
+                <svg id="workflow-svg" width="100%" height="100%"></svg>
+            </div>
+            <div class="flow-controls">
+                <button class="flow-btn" onclick="highlightPath('indexing')">
+                    <i class="fas fa-file-import"></i> 인덱싱 경로
+                </button>
+                <button class="flow-btn" onclick="highlightPath('vector')">
+                    <i class="fas fa-vector-square"></i> Vector 검색
+                </button>
+                <button class="flow-btn" onclick="highlightPath('graph')">
+                    <i class="fas fa-project-diagram"></i> Graph 검색
+                </button>
+                <button class="flow-btn" onclick="highlightPath('lattice')">
+                    <i class="fas fa-sitemap"></i> Lattice 검색
+                </button>
+                <button class="flow-btn" onclick="resetHighlight()">
+                    <i class="fas fa-undo"></i> 전체 보기
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Node Details Section -->
+    <section id="nodes" class="section">
+        <div class="container">
+            <h2 class="section-title">노드 상세 설명</h2>
+            <div class="nodes-grid">
+                <!-- Indexing Nodes -->
+                <div class="node-category">
+                    <h3><i class="fas fa-database"></i> 인덱싱 노드</h3>
+                    <div class="node-card" data-node="doc_loading">
+                        <h4>doc_loading</h4>
+                        <p>JSON 문서를 로드하고 파싱</p>
+                        <code>data/technical_docs.json → Dict</code>
+                    </div>
+                    <div class="node-card" data-node="doc_chunking">
+                        <h4>doc_chunking</h4>
+                        <p>문서를 의미 단위로 분할</p>
+                        <code>Dict → List[Chunk]</code>
+                    </div>
+                    <div class="node-card" data-node="doc_embedding">
+                        <h4>doc_embedding</h4>
+                        <p>텍스트를 벡터로 변환</p>
+                        <code>OpenAI text-embedding-ada-002</code>
+                    </div>
+                    <div class="node-card" data-node="keyword_extract">
+                        <h4>keyword_extract</h4>
+                        <p>spaCy로 핵심 키워드 추출</p>
+                        <code>NER + TF-IDF</code>
+                    </div>
+                    <div class="node-card" data-node="fc_extract">
+                        <h4>fc_extract</h4>
+                        <p>Formal Concept Analysis 수행</p>
+                        <code>Binary Matrix → Concept Lattice</code>
+                    </div>
+                </div>
+
+                <!-- Search Nodes -->
+                <div class="node-category">
+                    <h3><i class="fas fa-search"></i> 검색 노드</h3>
+                    <div class="node-card" data-node="vector_search">
+                        <h4>vector_search</h4>
+                        <p>코사인 유사도 기반 검색</p>
+                        <code>embedding.similarity_search(k=3)</code>
+                    </div>
+                    <div class="node-card" data-node="graph_search">
+                        <h4>graph_search</h4>
+                        <p>Neo4j 관계 기반 검색</p>
+                        <code>MATCH (n)-[r]-(m) WHERE...</code>
+                    </div>
+                    <div class="node-card" data-node="lattice_oc_search">
+                        <h4>lattice_oc_search</h4>
+                        <p>상위/하위 개념 계층 검색</p>
+                        <code>Order Coverage 알고리즘</code>
+                    </div>
+                    <div class="node-card" data-node="lattice_jaccard_search">
+                        <h4>lattice_jaccard_search</h4>
+                        <p>Jaccard 유사도 기반 검색</p>
+                        <code>|A∩B| / |A∪B|</code>
+                    </div>
+                </div>
+
+                <!-- Quality & Generation Nodes -->
+                <div class="node-category">
+                    <h3><i class="fas fa-check-circle"></i> 품질 관리 노드</h3>
+                    <div class="node-card" data-node="search_quality_eval">
+                        <h4>search_quality_eval</h4>
+                        <p>검색 결과 관련성 평가</p>
+                        <code>threshold: 0.7</code>
+                    </div>
+                    <div class="node-card" data-node="answer_quality_eval">
+                        <h4>answer_quality_eval</h4>
+                        <p>답변 완성도 평가</p>
+                        <code>threshold: 0.8</code>
+                    </div>
+                    <div class="node-card" data-node="hallucination_detect">
+                        <h4>hallucination_detect</h4>
+                        <p>환각 현상 감지</p>
+                        <code>fact-checking</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="section demo-section">
+        <div class="container">
+            <h2 class="section-title">라이브 데모</h2>
+            <div class="demo-container">
+                <div class="demo-input">
+                    <h3>질문 예시</h3>
+                    <div class="question-examples">
+                        <button class="example-btn" onclick="runDemo('simple')">
+                            <span class="example-type">Vector Search</span>
+                            <span class="example-text">이 표준의 작성일을 말해줘</span>
+                        </button>
+                        <button class="example-btn" onclick="runDemo('graph')">
+                            <span class="example-type">Graph Search</span>
+                            <span class="example-text">5장과 5.1장의 관계를 설명해줘</span>
+                        </button>
+                        <button class="example-btn" onclick="runDemo('lattice')">
+                            <span class="example-type">Lattice Search</span>
+                            <span class="example-text">요구사항을 계층적으로 분석해줘</span>
+                        </button>
+                        <button class="example-btn" onclick="runDemo('hybrid')">
+                            <span class="example-type">Hybrid Search</span>
+                            <span class="example-text">전체적인 시험 절차를 종합 분석해줘</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="demo-output">
+                    <div class="demo-process" id="demo-process">
+                        <div class="process-step" id="step-1">
+                            <i class="fas fa-question-circle"></i>
+                            <span>질문 분석</span>
+                        </div>
+                        <div class="process-step" id="step-2">
+                            <i class="fas fa-route"></i>
+                            <span>검색 방법 결정</span>
+                        </div>
+                        <div class="process-step" id="step-3">
+                            <i class="fas fa-search"></i>
+                            <span>검색 실행</span>
+                        </div>
+                        <div class="process-step" id="step-4">
+                            <i class="fas fa-check"></i>
+                            <span>품질 평가</span>
+                        </div>
+                        <div class="process-step" id="step-5">
+                            <i class="fas fa-comment-dots"></i>
+                            <span>답변 생성</span>
+                        </div>
+                    </div>
+                    <div class="demo-result" id="demo-result">
+                        <h4>검색 결과</h4>
+                        <div id="result-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Node Details -->
+    <div id="node-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modal-title"></h3>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="workflow.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>
